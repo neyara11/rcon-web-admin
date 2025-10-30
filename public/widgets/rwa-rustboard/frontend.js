@@ -570,8 +570,8 @@ Widget.register("rwa-rustboard", function (widget) {
         });
         widget.content.append(widget.template(".welcome-message"));
         widget.content.append(icons);
-        widget.content.append(banlist);
         widget.content.append(playerlist);
+        widget.content.append(banlist);
         widget.content.append(chat);
         widget.content.append(serverOptions);
 
