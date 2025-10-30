@@ -189,27 +189,37 @@ $(function () {
             overlay = $('.overlay'),
             isClosed = false;
 
+        debug('Hamburger initialization: trigger found:', trigger.length, 'overlay found:', overlay.length);
+
         trigger.click(function () {
+            debug('Hamburger clicked, current isClosed:', isClosed);
             hamburger_cross();
         });
 
         function hamburger_cross() {
+            debug('hamburger_cross called, isClosed:', isClosed);
 
             if (isClosed == true) {
                 overlay.hide();
                 trigger.removeClass('is-open');
                 trigger.addClass('is-closed');
                 isClosed = false;
+                debug('Menu closed');
             } else {
                 overlay.show();
                 trigger.removeClass('is-closed');
                 trigger.addClass('is-open');
                 isClosed = true;
+                debug('Menu opened');
             }
         }
 
         $('[data-toggle="offcanvas"]').click(function () {
-            $('#wrapper').toggleClass('toggled');
+            debug('Offcanvas toggle clicked');
+            var wrapper = $('#wrapper');
+            debug('Wrapper before toggle:', wrapper.hasClass('toggled'));
+            wrapper.toggleClass('toggled');
+            debug('Wrapper after toggle:', wrapper.hasClass('toggled'));
         });
     })();
     var body = $("body");
