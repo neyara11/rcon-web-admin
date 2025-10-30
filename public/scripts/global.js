@@ -47,16 +47,32 @@ function spinner(el) {
  * @param {number=} delay
  */
 function note(message, type, delay) {
-    if (delay === -1) delay = 99999999;
-    $.notify({
-        "message": t(message)
-    }, {
-        "type": typeof type == "undefined" ? "info" : type,
-        placement: {
-            from: "top",
-            align: "center"
-        },
-        "delay": delay || 5000,
+    if (delay === -1) delay = 0; // Для Bootstrap Toast autohide=false если delay=-1
+
+    var toastType = typeof type == "undefined" ? "info" : type;
+    var toastClass = "text-bg-" + toastType; // Используем Bootstrap 5 классы типа text-bg-info, text-bg-success и т.д.
+
+    var toastHtml = '<div class="toast align-items-center ' + toastClass + ' border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="' + (delay || 5000) + '">' +
+        '<div class="d-flex">' +
+            '<div class="toast-body">' + t(message) + '</div>' +
+            '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>' +
+        '</div>' +
+    '</div>';
+
+    var toastContainer = document.getElementById('toast-container');
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+
+    var newToast = toastContainer.lastElementChild;
+    var bsToast = new bootstrap.Toast(newToast);
+
+    if (delay === -1) {
+        bsToast._element.dataset.bsAutohide = "false"; // Отключаем автоскрытие для delay=-1
+    }
+
+    bsToast.show();
+
+    newToast.addEventListener('hidden.bs.toast', function() {
+        newToast.remove();
     });
 }
 
@@ -200,14 +216,16 @@ $(function () {
     var hasTouch = true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
     body.addClass(hasTouch ? "no-touch" : "touch");
     // bind tooltips
-    $(document).tooltip({
-        "selector": '[data-tooltip]',
-        "container": "body",
-        "html": true,
-        "title": function () {
-            return t($(this).attr("data-tooltip"));
-        }
-    }).on("inserted.bs.tooltip", function (ev) {
+    $('[data-tooltip]').each(function() {
+        $(this).tooltip({
+            "container": "body",
+            "html": true,
+            "title": function () {
+                return t($(this).attr("data-tooltip"));
+            }
+        });
+    });
+    $(document).on("inserted.bs.tooltip", function (ev) {
         // hide if we are on mobile touch device
         if (hasTouch) {
             setTimeout(function () {
