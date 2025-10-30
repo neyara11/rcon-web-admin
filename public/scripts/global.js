@@ -1,21 +1,5 @@
 "use strict";
 
-/**
- * Simple debug message, must be enabled via debug.set() in browser console
- */
-function debug() {
-    var flag = sessionStorage.getItem("debug");
-    if (!flag) return;
-    console[flag].apply(this, arguments);
-}
-
-/**
- * Set debug flag
- * @param {string} flag Set to "log" or "trace", set false to disable it
- */
-debug.set = function (flag) {
-    sessionStorage.setItem("debug", flag ? flag : "");
-};
 
 /**
  * Just get a translation value for given key
