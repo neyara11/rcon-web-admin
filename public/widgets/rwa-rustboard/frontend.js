@@ -27,6 +27,21 @@ Widget.register("rwa-rustboard", function (widget) {
         }
     };
 
+    // Добавлено логирование для отладки glyphicons
+    console.log("RWA-Rustboard: Loading widget, checking glyphicons support");
+    console.log("RWA-Rustboard: Document font face support:", document.fonts);
+
+    // Проверка загрузки glyphicons
+    var testIcon = document.createElement('span');
+    testIcon.className = 'glyphicon glyphicon-home';
+    testIcon.style.display = 'none';
+    document.body.appendChild(testIcon);
+
+    setTimeout(function() {
+        console.log("RWA-Rustboard: Test glyphicons element computed style:", window.getComputedStyle(testIcon));
+        document.body.removeChild(testIcon);
+    }, 100);
+
     // from https://github.com/OxideMod/Docs/blob/master/source/includes/rust/item_list.md
     var itemlist = [
         {"id": "2115555558", "item": "ammo.handmade.shell", "info": "Handmade Shell"},
@@ -339,15 +354,31 @@ Widget.register("rwa-rustboard", function (widget) {
      * @param {boolean=} forceUpdate
      */
     var updateServerstatus = function (forceUpdate) {
+        console.log("RWA-Rustboard: Updating server status", {forceUpdate: forceUpdate});
+
         widget.backend("serverstatus", {"forceUpdate": forceUpdate}, function (serverstatus) {
-            if (!serverstatus) return;
+            if (!serverstatus) {
+                console.warn("RWA-Rustboard: No server status received");
+                return;
+            }
+
+            console.log("RWA-Rustboard: Server status received, updating icons");
             var tbody = playerlist.find("tbody");
             tbody.html('');
+
+            // Проверка иконок перед обновлением
+            console.log("RWA-Rustboard: Checking icons before update");
+            console.log("RWA-Rustboard: Host icon element:", icons.find(".host .glyphicon"));
+            console.log("RWA-Rustboard: Host icon styles:", window.getComputedStyle(icons.find(".host .glyphicon")[0]));
+
             icons.find(".host .text").html(serverstatus.server.hostname);
             icons.find(".players .text").html(serverstatus.server.players);
             icons.find("h2 .info").text(" | " + serverstatus.server.players);
             icons.find(".version .text").html("Version " + serverstatus.server.version);
             icons.find(".map .text").html(serverstatus.server.map);
+
+            console.log("RWA-Rustboard: Icons updated, checking after update");
+            console.log("RWA-Rustboard: Host icon after update:", icons.find(".host .glyphicon"));
             var tr = null;
             for (var playerIndex in serverstatus.players.online) {
                 if (serverstatus.players.online.hasOwnProperty(playerIndex)) {
