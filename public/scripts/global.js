@@ -218,10 +218,21 @@ $(function () {
         $('[data-toggle="offcanvas"]').click(function () {
             debug('Offcanvas toggle clicked');
             var wrapper = $('#wrapper');
+            var sidebar = $('#sidebar-wrapper');
+            var pageContent = $('#page-content-wrapper');
             debug('Wrapper before toggle:', wrapper.hasClass('toggled'));
             wrapper.toggleClass('toggled');
             debug('Wrapper after toggle:', wrapper.hasClass('toggled'));
-            debug('Sidebar wrapper after toggle, width:', $('#sidebar-wrapper').css('width'));
+            debug('Sidebar wrapper after toggle, width:', sidebar.css('width'));
+            // Принудительно применить стили после toggle для Bootstrap 5 совместимости
+            if (wrapper.hasClass('toggled')) {
+                sidebar.css('width', '220px');
+                pageContent.css('left', '220px');
+            } else {
+                sidebar.css('width', '0px');
+                pageContent.css('left', '0px');
+            }
+            debug('Styles applied: sidebar width =', sidebar.css('width'), 'page content left =', pageContent.css('left'));
         });
     })();
     var body = $("body");
