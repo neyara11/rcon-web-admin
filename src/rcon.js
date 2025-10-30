@@ -306,7 +306,7 @@ Rcon.prototype._data = function () {
             "log": true
         };
 
-        // console.log("response", response.id, response.type, response.body.length, this.callbacks.length);
+        // // console.log("response", response.id, response.type, response.body.length, this.callbacks.length);
 
         // SERVERDATA_RESPONSE_VALUE is the response to SERVERDATA_EXECCOMMAND
         // so we collect buffer information everytime we have such a request

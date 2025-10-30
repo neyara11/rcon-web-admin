@@ -45,5 +45,5 @@ app.get("*", function (req, res) {
 });
 
 app.listen(config.port, config.host, function () {
-    console.log("RCON Web Admin listening on port " + config.port);
+    // console.log("RCON Web Admin listening on port " + config.port);
 });

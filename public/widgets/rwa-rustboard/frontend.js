@@ -28,8 +28,8 @@ Widget.register("rwa-rustboard", function (widget) {
     };
 
     // Добавлено логирование для отладки glyphicons
-    console.log("RWA-Rustboard: Loading widget, checking glyphicons support");
-    console.log("RWA-Rustboard: Document font face support:", document.fonts);
+    // console.log("RWA-Rustboard: Loading widget, checking glyphicons support");
+    // console.log("RWA-Rustboard: Document font face support:", document.fonts);
 
     // Проверка загрузки glyphicons
     var testIcon = document.createElement('span');
@@ -38,9 +38,9 @@ Widget.register("rwa-rustboard", function (widget) {
     document.body.appendChild(testIcon);
 
     setTimeout(function() {
-        console.log("RWA-Rustboard: Test glyphicons element computed style:", window.getComputedStyle(testIcon));
-        console.log("RWA-Rustboard: Test glyphicons content:", testIcon.textContent);
-        console.log("RWA-Rustboard: Test glyphicons innerHTML:", testIcon.innerHTML);
+        // console.log("RWA-Rustboard: Test glyphicons element computed style:", window.getComputedStyle(testIcon));
+        // console.log("RWA-Rustboard: Test glyphicons content:", testIcon.textContent);
+        // console.log("RWA-Rustboard: Test glyphicons innerHTML:", testIcon.innerHTML);
         document.body.removeChild(testIcon);
     }, 100);
 
@@ -356,22 +356,22 @@ Widget.register("rwa-rustboard", function (widget) {
      * @param {boolean=} forceUpdate
      */
     var updateServerstatus = function (forceUpdate) {
-        console.log("RWA-Rustboard: Updating server status", {forceUpdate: forceUpdate});
+        // console.log("RWA-Rustboard: Updating server status", {forceUpdate: forceUpdate});
 
         widget.backend("serverstatus", {"forceUpdate": forceUpdate}, function (serverstatus) {
             if (!serverstatus) {
-                console.warn("RWA-Rustboard: No server status received");
+                // console.warn("RWA-Rustboard: No server status received");
                 return;
             }
 
-            console.log("RWA-Rustboard: Server status received, updating icons");
+            // console.log("RWA-Rustboard: Server status received, updating icons");
             var tbody = playerlist.find("tbody");
             tbody.html('');
 
             // Проверка иконок перед обновлением
-            console.log("RWA-Rustboard: Checking icons before update");
-            console.log("RWA-Rustboard: Host icon element:", icons.find(".host .glyphicon"));
-            console.log("RWA-Rustboard: Host icon styles:", window.getComputedStyle(icons.find(".host .glyphicon")[0]));
+            // console.log("RWA-Rustboard: Checking icons before update");
+            // console.log("RWA-Rustboard: Host icon element:", icons.find(".host .glyphicon"));
+            // console.log("RWA-Rustboard: Host icon styles:", window.getComputedStyle(icons.find(".host .glyphicon")[0]));
 
             icons.find(".host .text").html(serverstatus.server.hostname);
             icons.find(".players .text").html(serverstatus.server.players);
@@ -379,8 +379,8 @@ Widget.register("rwa-rustboard", function (widget) {
             icons.find(".version .text").html("Version " + serverstatus.server.version);
             icons.find(".map .text").html(serverstatus.server.map);
 
-            console.log("RWA-Rustboard: Icons updated, checking after update");
-            console.log("RWA-Rustboard: Host icon after update:", icons.find(".host .glyphicon"));
+            // console.log("RWA-Rustboard: Icons updated, checking after update");
+            // console.log("RWA-Rustboard: Host icon after update:", icons.find(".host .glyphicon"));
             var tr = null;
             for (var playerIndex in serverstatus.players.online) {
                 if (serverstatus.players.online.hasOwnProperty(playerIndex)) {
