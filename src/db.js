@@ -46,14 +46,19 @@ db.get = function (file, folder) {
     }
     
     var adapter = new JSONFileSync(path);
-    var inst = new LowSync(adapter);
+    // Create default data if file doesn't exist
+    if (!fs.existsSync(path)) {
+        fs.writeFileSync(path, JSON.stringify(db._defaults[file] || {}), 'utf8');
+    }
+    var inst = new LowSync(adapter, db._defaults[file] || {});
     inst.read();
     
     // if getting settings than set some defaults
     if (typeof db._defaults[file] != "undefined") {
         if (file == "settings") {
             if (!inst.data || typeof inst.data.salt === 'undefined') {
-                db._defaults[file].salt = hash.random(64);
+                inst.data = inst.data || {};
+                inst.data.salt = hash.random(64);
             }
         }
         if (!inst.data) {
