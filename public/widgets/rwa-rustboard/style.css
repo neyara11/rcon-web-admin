@@ -35,12 +35,12 @@
 /* Glyphicons font support */
 @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url('/stylesheets/fonts/glyphicons-halflings-regular.eot');
-    src: url('/stylesheets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
-         url('/stylesheets/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
-         url('/stylesheets/fonts/glyphicons-halflings-regular.woff') format('woff'),
-         url('/stylesheets/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
-         url('/stylesheets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
+    src: url('/rwa/stylesheets/fonts/glyphicons-halflings-regular.eot');
+    src: url('/rwa/stylesheets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+         url('/rwa/stylesheets/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+         url('/rwa/stylesheets/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('/rwa/stylesheets/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+         url('/rwa/stylesheets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
 }
 
 .glyphicon {
