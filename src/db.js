@@ -10,6 +10,9 @@ var hash = require(__dirname + "/hash");
  */
 var db = {};
 
+// Cache for LowDB instances to ensure singleton pattern
+db._instances = {};
+
 /**
  * The db defaults
  * @type {object<string, *>}
@@ -30,6 +33,13 @@ db._defaults = {
  * @returns {LowSync}
  */
 db.get = function (file, folder) {
+    var cacheKey = folder ? `${folder}/${file}` : file;
+    
+    // Return cached instance if it exists
+    if (db._instances[cacheKey]) {
+        return db._instances[cacheKey];
+    }
+    
     var path = __dirname + '/../db';
     if (folder) path += "/" + folder;
     path += "/" + file + ".json";
@@ -46,10 +56,6 @@ db.get = function (file, folder) {
     }
     
     var adapter = new JSONFileSync(path);
-    // Create default data if file doesn't exist
-    if (!fs.existsSync(path)) {
-        fs.writeFileSync(path, JSON.stringify(db._defaults[file] || {}), 'utf8');
-    }
     var inst = new LowSync(adapter, db._defaults[file] || {});
     inst.read();
     
@@ -73,6 +79,10 @@ db.get = function (file, folder) {
         }
         inst.write();
     }
+    
+    // Cache the instance
+    db._instances[cacheKey] = inst;
+    
     return inst;
 };
 

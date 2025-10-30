@@ -14,7 +14,6 @@ var Widget = require(__dirname + "/../widget");
 function View(user, messageData, callback) {
     var usersDb = db.get("users");
     var users = usersDb.data ? { ...usersDb.data } : {};
-    var usersCount = Object.keys(users).length;
     var deeperCallback = function (sendMessageData) {
         sendMessageData.users = usersDb.data ? { ...usersDb.data } : {};
         sendMessageData.widgets = Widget.getAllWidgetIds();
@@ -25,6 +24,7 @@ function View(user, messageData, callback) {
         callback(sendMessageData);
     };
     // access denied if users are in database and user is not admin
+    var usersCount = Object.keys(users).length;
     if (usersCount && (!user.userData || !user.userData.admin)) {
         callback({redirect: "index", "note": ["access.denied", "danger"]});
         return;
@@ -69,12 +69,15 @@ function View(user, messageData, callback) {
         db.get("users").data[id] = userData;
         db.get("users").write();
         messageData.id = null;
-        var sessionUserData = userData;
+        
+        // Refresh users data after write
+        var updatedUsersDb = db.get("users");
+        var sessionUserData = updatedUsersDb.data && updatedUsersDb.data[id] ? { ...updatedUsersDb.data[id] } : userData;
         delete sessionUserData["password"];
         deeperCallback({
             "sessionUserData": !user || !user.userData || user.userData.id == userData.id ? sessionUserData : user.userData,
             "login": !user.userData || user.userData.id == id,
-            "initial": usersCount == 0,
+            "initial": Object.keys(updatedUsersDb.data || {}).length === 1, // Check if this is the only user
             "note": {"message": "saved", "type": "success"},
             "redirect": "users"
         });

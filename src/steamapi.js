@@ -31,27 +31,51 @@ steamapi.request = function (type, ids, callback) {
         }
     }
     if (missingIds.length) {
-        request.get("https://scripts.0x.at/steamapi/api.php?action=" + type + "&ids=" + missingIds.join(","), false, function (result) {
-            if (result !== null) {
+        // Получаем API ключ из конфигурации
+        var config = require(__dirname + "/config");
+        if (!config.steamApiKey) {
+            // Если API ключ не задан, возвращаем только кэшированные данные
+            callback(res);
+            return;
+        }
+        
+        var apiKey = config.steamApiKey;
+        var url = null;
+        
+        if (type == "summaries") {
+            url = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + missingIds.join(",");
+        } else if (type == "bans") {
+            url = "https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=" + apiKey + "&steamids=" + missingIds.join(",");
+        } else {
+            callback(res);
+            return;
+        }
+        
+        request.get(url, false, function (result) {
+            if (result !== null && result.length > 0) {
                 var steamData = null;
-                var data = JSON.parse(result);
-                if (type == "bans") {
-                    for (var i = 0; i < data.players.length; i++) {
-                        steamData = data.players[i];
-                        steamapi.saveDataForId(type, steamData.SteamId, steamData);
-                        res[steamData.SteamId] = steamData;
+                try {
+                    var data = JSON.parse(result);
+                    if (type == "bans") {
+                        if(data.players){
+                            for (var i = 0; i < data.players.length; i++) {
+                                steamData = data.players[i];
+                                steamapi.saveDataForId(type, steamData.SteamId, steamData);
+                                res[steamData.SteamId] = steamData;
+                            }
+                        }
                     }
-                }
-                if (type == "summaries") {
-                    if(data.response){
-                        for (var playerIndex in data.response.players) {
-                            if (data.response.players.hasOwnProperty(playerIndex)) {
-                                steamData = data.response.players[playerIndex];
+                    if (type == "summaries") {
+                        if(data.response && data.response.players){
+                            for (var i = 0; i < data.response.players.length; i++) {
+                                steamData = data.response.players[i];
                                 steamapi.saveDataForId(type, steamData.steamid, steamData);
                                 res[steamData.steamid] = steamData;
                             }
                         }
                     }
+                } catch (e) {
+                    console.error("Error parsing JSON from Steam API:", e);
                 }
             }
             callback(res);

@@ -181,9 +181,10 @@ function WebSocketUser(socket) {
             var userData = null;
             if (usersDb.data) {
                 for (var userId in usersDb.data) {
-                    if (usersDb.data[userId].username === frontendData.loginName &&
+                    if (usersDb.data[userId] &&
+                        usersDb.data[userId].username === frontendData.loginName &&
                         usersDb.data[userId].loginHash === frontendData.loginHash) {
-                        userData = usersDb.data[userId];
+                        userData = { ...usersDb.data[userId] }; // Create a copy to avoid direct reference
                         break;
                     }
                 }

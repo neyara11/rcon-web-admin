@@ -25,8 +25,8 @@ var View = function (user, messageData, callback) {
         sendMessageData.widgets = widgets;
         sendMessageData.myServers = myServers;
         if (currentServer) {
-            var myWidgets = wdb.get("list").cloneDeep().value();
-            sendMessageData.gridrows = wdb.get("gridrows").value();
+            var myWidgets = wdb.data && wdb.data.list ? [...wdb.data.list] : [];
+            sendMessageData.gridrows = wdb.data ? wdb.data.gridrows : undefined;
             sendMessageData.myWidgets = [];
             if (myWidgets) {
                 for (var i = 0; i < myWidgets.length; i++) {
@@ -88,20 +88,35 @@ var View = function (user, messageData, callback) {
                         deeperCallback({"note": {"message": "server.widget.restricted", "type": "danger"}});
                         return;
                     }
-                    var list = wdb.get("list");
-                    widget = Widget.get(messageData.widget);
+                    var widget = Widget.get(messageData.widget);
                     if (widget) {
                         var widgetId = widget.id;
-                        if (list.find({"id": widget.id}).size().value()) {
+                        var hasWidget = false;
+                        if (wdb.data && wdb.data.list) {
+                            for (var i = 0; i < wdb.data.list.length; i++) {
+                                if (wdb.data.list[i].id === widget.id) {
+                                    hasWidget = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (hasWidget) {
                             widgetId = null;
                         } else {
-                            list.push({
+                            if (!wdb.data) {
+                                wdb.data = {};
+                            }
+                            if (!wdb.data.list) {
+                                wdb.data.list = [];
+                            }
+                            wdb.data.list.push({
                                 "id": widgetId,
-                                "position": list.size().value(),
+                                "position": wdb.data.list.length,
                                 "size": widget.manifest.compatibleSizes[0],
                                 "options": {},
                                 "storage": {}
-                            }).value();
+                            });
+                            wdb.write();
                             Widget.callMethodForAllWidgetsIfActive(
                                 "onWidgetAdded",
                                 currentServer
@@ -117,24 +132,38 @@ var View = function (user, messageData, callback) {
                     }
                     widget = Widget.get(messageData.widget);
                     if (widget) {
-                        wdb.get("list").remove({
-                            "id": messageData.widget
-                        }).value();
+                        if (wdb.data && wdb.data.list) {
+                            var newList = [];
+                            for (var i = 0; i < wdb.data.list.length; i++) {
+                                if (wdb.data.list[i].id !== messageData.widget) {
+                                    newList.push(wdb.data.list[i]);
+                                }
+                            }
+                            wdb.data.list = newList;
+                            wdb.write();
+                        }
                         delete widget.storageCache[currentServer.id];
                         delete widget.optionsCache[currentServer.id];
                     }
                     deeperCallback({});
                     break;
                 case "layout":
-                    widgetEntry = wdb.get("list").find({
-                        "id": messageData.widget
-                    });
-                    if (widgetEntry.size().value()) {
-                        for (var messageDataIndex in messageData.values) {
-                            if (messageData.values.hasOwnProperty(messageDataIndex)) {
-                                widgetEntry.set(messageDataIndex, messageData.values[messageDataIndex]).value();
+                    var widgetEntry = null;
+                    if (wdb.data && wdb.data.list) {
+                        for (var i = 0; i < wdb.data.list.length; i++) {
+                            if (wdb.data.list[i].id === messageData.widget) {
+                                widgetEntry = wdb.data.list[i];
+                                break;
                             }
                         }
+                    }
+                    if (widgetEntry) {
+                        for (var messageDataIndex in messageData.values) {
+                            if (messageData.values.hasOwnProperty(messageDataIndex)) {
+                                widgetEntry[messageDataIndex] = messageData.values[messageDataIndex];
+                            }
+                        }
+                        wdb.write();
                     }
                     deeperCallback({});
                     break;
