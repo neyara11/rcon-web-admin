@@ -95,7 +95,9 @@ function WebSocketUser(socket) {
                         }
                         break;
                     case "view":
-                        if (!db.get("users").size().value()) {
+                        var usersDb = db.get("users");
+                        var users = usersDb.data || {};
+                        if (Object.keys(users).length === 0) {
                             // if no user exist, force user admin panel
                             messageData.view = "users";
                         } else if (self.userData === null) {
@@ -170,14 +172,22 @@ function WebSocketUser(socket) {
 
         // everytime a request comes in, validate the user
         // after that go ahead with message processing
-        var users = db.get("users").get().cloneDeep().value();
+        var usersDb = db.get("users");
+        var users = usersDb.data ? { ...usersDb.data } : {};
         // invalidate userdata and check against stored users
         self.userData = null;
         if (frontendData.loginHash && frontendData.loginName) {
-            var userData = db.get("users").find({
-                "username": frontendData.loginName,
-                "loginHash": frontendData.loginHash
-            }).cloneDeep().value();
+            var usersDb = db.get("users");
+            var userData = null;
+            if (usersDb.data) {
+                for (var userId in usersDb.data) {
+                    if (usersDb.data[userId].username === frontendData.loginName &&
+                        usersDb.data[userId].loginHash === frontendData.loginHash) {
+                        userData = usersDb.data[userId];
+                        break;
+                    }
+                }
+            }
             if (userData) {
                 self.userData = userData;
                 // add instance of this is a complete new user

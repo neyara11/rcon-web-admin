@@ -23,7 +23,9 @@ hash.random = function (length) {
  */
 hash.saltedMd5 = function (str) {
     var db = require(__dirname + "/db");
-    return crypto.createHash('md5').update(str + "" + db.get("settings").get("salt").value()).digest("hex");
+    var settingsDb = db.get("settings");
+    var salt = settingsDb.data && settingsDb.data.salt ? settingsDb.data.salt : "";
+    return crypto.createHash('md5').update(str + "" + salt).digest("hex");
 };
 
 module.exports = hash;

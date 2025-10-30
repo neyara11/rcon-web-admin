@@ -10,11 +10,10 @@
     "url": "git://github.com/rcon-web-admin/rcon-web-admin.git"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "fstream": ">=1.0.12",
-    "lowdb": ">=0.14.0",
-    "unzipper": "^0.10.5",
-    "ws": ">=1.1.1"
+    "express": "^4.18.2",
+    "lowdb": "^7.0.1",
+    "unzipper": "^0.12.3",
+    "ws": "^8.14.2"
   },
   "engines": {
     "node": ">=4.0.0"

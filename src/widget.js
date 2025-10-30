@@ -40,12 +40,26 @@ function Widget(id) {
      * @returns {LoDashWrapper}
      */
     this.getDbEntry = function (server) {
-        var wdb = db.get("widgets", "server_" + server.id).get("list");
-        var found = wdb.find({
-            "id": this.id
-        });
-        if (found.size().value()) {
-            return found;
+        var wdb = db.get("widgets", "server_" + server.id);
+        if (wdb.data && wdb.data.list) {
+            for (var i = 0; i < wdb.data.list.length; i++) {
+                if (wdb.data.list[i].id === this.id) {
+                    return {
+                        size: function() { return { value: 1 }; },
+                        value: function() { return wdb.data.list[i]; },
+                        get: function(key) {
+                            return {
+                                value: function() { return wdb.data.list[i][key]; }
+                            };
+                        },
+                        set: function(key, value) {
+                            wdb.data.list[i][key] = value;
+                            wdb.write();
+                            return this;
+                        }
+                    };
+                }
+            }
         }
         return null;
     };
@@ -85,7 +99,7 @@ function Widget(id) {
             self.storageCache[server.id] = {};
             var entry = self.getDbEntry(server);
             if (entry) {
-                self.storageCache[server.id] = entry.get("storage").cloneDeep().value() || {};
+                self.storageCache[server.id] = entry.get("storage").value() || {};
             }
         }
         return self.storageCache[server.id];
@@ -105,7 +119,7 @@ function Widget(id) {
         data[key + ".lifetime"] = lifetime && lifetime > -1 ? (new Date().getTime() / 1000) + lifetime : -1;
         var entry = self.getDbEntry(server);
         if (entry) {
-            entry.set("storage", data).value();
+            entry.set("storage", data);
         }
     };
 
@@ -147,7 +161,7 @@ function Widget(id) {
             self.optionsCache[server.id] = null;
             var entry = self.getDbEntry(server);
             if (entry) {
-                self.optionsCache[server.id] = entry.get("options").cloneDeep().value();
+                self.optionsCache[server.id] = entry.get("options").value();
             }
         }
         return self.optionsCache[server.id];
@@ -169,7 +183,7 @@ function Widget(id) {
             data[key] = value;
             var entry = self.getDbEntry(server);
             if (entry) {
-                entry.set("options", data).value();
+                entry.set("options", data);
             }
         }
     };
@@ -281,21 +295,36 @@ Widget.install = function (repository, callback) {
                 callback(false);
                 return;
             }
-            fs.writeFile(repoDir + "/master.zip", contents, {"mode": 0o777}, function () {
-                fs.createReadStream(repoDir + "/master.zip").pipe(unzip.Parse()).on('entry', function (entry) {
-                    var fileName = entry.path.split("/").slice(1).join("/");
-                    if (!fileName.length) return;
-                    var path = repoDir + "/" + fileName;
-                    if (entry.type == "Directory") {
-                        fs.mkdirSync(path, 0o777);
-                        entry.autodrain();
-                    } else {
-                        entry.pipe(fs.createWriteStream(path));
-                    }
-                }).on("close", function () {
-                    fs.unlinkSync(repoDir + "/master.zip");
-                    callback(true);
-                });
+            fs.writeFile(repoDir + "/master.zip", contents, {"mode": 0o77}, function () {
+                fs.createReadStream(repoDir + "/master.zip")
+                    .pipe(unzip.Parse())
+                    .on('entry', function (entry) {
+                        var fileName = entry.path.split("/").slice(1).join("/");
+                        if (!fileName.length) {
+                            entry.autodrain();
+                            return;
+                        }
+                        var path = repoDir + "/" + fileName;
+                        if (entry.type === "Directory") {
+                            fs.mkdirSync(path, { recursive: true, mode: 0o777 });
+                            entry.autodrain();
+                        } else {
+                            // Ensure parent directory exists
+                            var parentDir = require('path').dirname(path);
+                            if (!fs.existsSync(parentDir)) {
+                                fs.mkdirSync(parentDir, { recursive: true, mode: 0o777 });
+                            }
+                            entry.pipe(fs.createWriteStream(path));
+                        }
+                    })
+                    .on("close", function () {
+                        fs.unlinkSync(repoDir + "/master.zip");
+                        callback(true);
+                    })
+                    .on("error", function (err) {
+                        console.error("Error extracting zip file:", err);
+                        callback(false);
+                    });
             });
         });
     });
@@ -315,14 +344,19 @@ Widget.delete = function (id, callback) {
         for (var serverIndex in RconServer.instances) {
             if (RconServer.instances.hasOwnProperty(serverIndex)) {
                 var server = RconServer.instances[serverIndex];
-                var list = db.get("widgets", "server_" + server.id).get("list").values();
+                var widgetsDb = db.get("widgets", "server_" + server.id);
+                var list = widgetsDb.data && widgetsDb.data.list ? widgetsDb.data.list : [];
                 if (list) {
                     var newList = [];
                     for (var i = 0; i < list.length; i++) {
                         var widgetEntry = list[i];
                         if (widgetEntry.id !== id) newList.push(widgetEntry);
                     }
-                    db.get("widgets", "server_" + server.id).set("list", newList).value();
+                    if (!widgetsDb.data) {
+                        widgetsDb.data = {};
+                    }
+                    widgetsDb.data.list = newList;
+                    widgetsDb.write();
                 }
             }
         }

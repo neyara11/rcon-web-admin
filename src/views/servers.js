@@ -23,14 +23,15 @@ var View = function (user, messageData, callback) {
     var deeperCallback = function (sendMessageData) {
         // just pipe to frontend
         var users = [];
-        var usersObject = db.get("users").value();
+        var usersObject = db.get("users").data || {};
         for (var userIndex in usersObject) {
             if (usersObject.hasOwnProperty(userIndex)) {
                 var userRow = usersObject[userIndex];
                 users.push(userRow.username);
             }
         }
-        sendMessageData.servers = db.get("servers").cloneDeep().value();
+        var serversDb = db.get("servers");
+        sendMessageData.servers = serversDb.data ? { ...serversDb.data } : {};
         if (messageData.id) {
             sendMessageData.editData = sendMessageData.servers[messageData.id];
         }
@@ -45,9 +46,11 @@ var View = function (user, messageData, callback) {
         server = RconServer.get(messageData.id);
         if (server) {
             server.removeInstance(true);
-            servers = db.get("servers").getState();
-            delete servers[messageData.id];
-            db.get("servers").setState(servers);
+            var serversDb = db.get("servers");
+            if (serversDb.data) {
+                delete serversDb.data[messageData.id];
+                serversDb.write();
+            }
             // delete server folder
             var dir = __dirname + "/../../db/server_" + messageData.id;
             if (fs.existsSync(dir)) {
@@ -64,7 +67,8 @@ var View = function (user, messageData, callback) {
     if (messageData.form == "servers" && messageData.btn == "save") {
         var formData = messageData.formData;
         var id = messageData.id || hash.random(32);
-        servers = db.get("servers").cloneDeep().value();
+        var serversDb = db.get("servers");
+        servers = serversDb.data ? { ...serversDb.data } : {};
         var serverData = servers[id] || {};
         serverData.id = id;
         serverData.game = formData.game;
@@ -75,7 +79,12 @@ var View = function (user, messageData, callback) {
         serverData.active = formData.active == "yes";
         serverData.rcon_port = parseInt(formData.rcon_port);
         serverData.rcon_password = formData.rcon_password;
-        db.get("servers").set(id, serverData).value();
+        var serversDb = db.get("servers");
+        if (!serversDb.data) {
+            serversDb.data = {};
+        }
+        serversDb.data[id] = serverData;
+        serversDb.write();
 
         if (messageData.id) {
             // reload server if edited

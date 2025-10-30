@@ -69,7 +69,7 @@ steamapi.request = function (type, ids, callback) {
  */
 steamapi.getDataForId = function (type, id) {
     var sdb = db.get("steamapi");
-    var playerData = sdb.get(id).value();
+    var playerData = sdb.data && sdb.data[id] ? sdb.data[id] : null;
     if (!playerData || !playerData[type]) return null;
     if (playerData[type].timestamp < (new Date().getTime() / 1000 - 86400)) {
         delete playerData[type];
@@ -86,11 +86,14 @@ steamapi.getDataForId = function (type, id) {
  */
 steamapi.saveDataForId = function (type, id, data) {
     var sdb = db.get("steamapi");
-    var playerData = sdb.get(id).value();
-    if (!playerData) playerData = {};
+    if (!sdb.data) {
+        sdb.data = {};
+    }
+    var playerData = sdb.data[id] || {};
     data.timestamp = new Date().getTime() / 1000;
     playerData[type] = data;
-    sdb.set(id, playerData).value();
+    sdb.data[id] = playerData;
+    sdb.write();
 };
 
 /**
@@ -98,7 +101,8 @@ steamapi.saveDataForId = function (type, id, data) {
  */
 steamapi.cleanup = function () {
     try {
-        var data = db.get("steamapi").value();
+        var sdb = db.get("steamapi");
+        var data = sdb.data || {};
         var timeout = new Date() / 1000 - 86400;
         for (var steamId in data) {
             if (data.hasOwnProperty(steamId)) {
@@ -113,7 +117,8 @@ steamapi.cleanup = function () {
                 }
             }
         }
-        db.get("steamapi").setState(data);
+        sdb.data = data;
+        sdb.write();
     } catch (e) {
         console.error(new Date(), "Steamapi cleanup failed", e, e.stack);
     }

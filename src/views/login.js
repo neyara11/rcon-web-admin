@@ -15,10 +15,16 @@ var View = function (user, messageData, callback) {
         var formData = messageData.formData;
         if (formData.username && formData.password) {
             var pwHash = hash.saltedMd5(formData.password);
-            var userData = db.get("users").find({
-                "username": formData.username,
-                "password": pwHash
-            }).cloneDeep().value();
+            var usersDb = db.get("users");
+            var userData = null;
+            if (usersDb.data) {
+                for (var userId in usersDb.data) {
+                    if (usersDb.data[userId].username === formData.username && usersDb.data[userId].password === pwHash) {
+                        userData = usersDb.data[userId];
+                        break;
+                    }
+                }
+            }
             if (userData) {
                 callback({
                     "sessionUserData": {"username": userData.username, "loginHash": userData.loginHash},

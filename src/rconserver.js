@@ -182,7 +182,8 @@ RconServer.instances = {};
  * Connect to each servers in our pool
  */
 RconServer.connectAll = function () {
-    var servers = db.get("servers").value();
+    var serversDb = db.get("servers");
+    var servers = serversDb.data || {};
     if (servers) {
         for (var i in servers) {
             if (servers[i].active === false) continue;
@@ -203,7 +204,8 @@ RconServer.get = function (id, connect) {
         return RconServer.instances[id];
     }
     if (!connect) return null;
-    var serverData = db.get("servers").get(id).cloneDeep().value();
+    var serversDb = db.get("servers");
+    var serverData = serversDb.data && serversDb.data[id] ? { ...serversDb.data[id] } : null;
     if (serverData) {
         RconServer.instances[id] = new RconServer(id, serverData);
         return RconServer.instances[id];

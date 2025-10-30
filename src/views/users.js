@@ -12,13 +12,14 @@ var Widget = require(__dirname + "/../widget");
  * @constructor
  */
 function View(user, messageData, callback) {
-    var users = db.get("users").cloneDeep().value();
-    var usersCount = db.get("users").size().value();
+    var usersDb = db.get("users");
+    var users = usersDb.data ? { ...usersDb.data } : {};
+    var usersCount = Object.keys(users).length;
     var deeperCallback = function (sendMessageData) {
-        sendMessageData.users = db.get("users").cloneDeep().value();
+        sendMessageData.users = usersDb.data ? { ...usersDb.data } : {};
         sendMessageData.widgets = Widget.getAllWidgetIds();
         if (messageData.id) {
-            sendMessageData.editData = db.get("users").get(messageData.id).cloneDeep().value();
+            sendMessageData.editData = usersDb.data && usersDb.data[messageData.id] ? { ...usersDb.data[messageData.id] } : null;
             sendMessageData.editData.admin = sendMessageData.editData.admin ? "yes" : "no";
         }
         callback(sendMessageData);
@@ -62,7 +63,11 @@ function View(user, messageData, callback) {
         userData.readonlyoptions = formData.readonlyoptions == "yes";
         userData.admin = formData.admin == "yes";
         userData.loginHash = hash.random(64);
-        db.get("users").set(id, userData).value();
+        if (!db.get("users").data) {
+            db.get("users").data = {};
+        }
+        db.get("users").data[id] = userData;
+        db.get("users").write();
         messageData.id = null;
         var sessionUserData = userData;
         delete sessionUserData["password"];
