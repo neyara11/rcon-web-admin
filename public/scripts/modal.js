@@ -37,7 +37,7 @@ Modal.confirm = function (message, callback) {
             e.modal("hide");
         }
     );
-    e.find(".btn-default").on("click", function () {
+    e.find(".btn-secondary").on("click", function () {
             if (callback) callback(false);
             callback = null;
             e.modal("hide");
@@ -74,7 +74,7 @@ Modal.prompt = function (message, placeholder, callback) {
             e.modal("hide");
         }
     );
-    e.find(".btn-default").on("click", function () {
+    e.find(".btn-secondary").on("click", function () {
             if (callback) callback(false);
             callback = null;
             e.modal("hide");
