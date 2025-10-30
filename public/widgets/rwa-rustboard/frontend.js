@@ -39,6 +39,8 @@ Widget.register("rwa-rustboard", function (widget) {
 
     setTimeout(function() {
         console.log("RWA-Rustboard: Test glyphicons element computed style:", window.getComputedStyle(testIcon));
+        console.log("RWA-Rustboard: Test glyphicons content:", testIcon.textContent);
+        console.log("RWA-Rustboard: Test glyphicons innerHTML:", testIcon.innerHTML);
         document.body.removeChild(testIcon);
     }, 100);
 

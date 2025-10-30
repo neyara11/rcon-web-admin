@@ -32,6 +32,58 @@
     margin-right: 10px;
 }
 
+/* Glyphicons font support */
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../stylesheets/fonts/glyphicons-halflings-regular.eot');
+    src: url('../stylesheets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+         url('../stylesheets/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+         url('../stylesheets/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('../stylesheets/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+         url('../stylesheets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon:before {
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon-home:before {
+    content: "\e021";
+}
+.glyphicon-user:before {
+    content: "\e008";
+}
+.glyphicon-info-sign:before {
+    content: "\e086";
+}
+.glyphicon-picture:before {
+    content: "\e060";
+}
+.glyphicon-ok-circle:before {
+    content: "\e084";
+}
+.glyphicon-remove-circle:before {
+    content: "\e088";
+}
+
 .widget-rwa-rustboard .chat-message {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
