@@ -1,0 +1,65 @@
+.widget-rwa-rustboard table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.widget-rwa-rustboard table th {
+    text-align: left;
+}
+
+.widget-rwa-rustboard table td {
+    vertical-align: middle !important;
+}
+
+.widget-rwa-rustboard table td.id div,
+.widget-rwa-rustboard table td.name div,
+.widget-rwa-rustboard table td.ip div {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.widget-rwa-rustboard table td:hover div {
+    max-width: none;
+    overflow: visible;
+}
+
+.widget-rwa-rustboard .icons {
+    font-size: 90%;
+}
+
+.widget-rwa-rustboard .icons .glyphicon {
+    margin-right: 10px;
+}
+
+.widget-rwa-rustboard .chat-message {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.widget-rwa-rustboard .chat-message .col-sm-4 {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.widget-rwa-rustboard .chat-message .box {
+    font-size: 80%;
+    color: #aaaaaa;
+    padding: 2px 10px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.widget-rwa-rustboard .chat-message .text {
+    padding: 3px;
+}
+
+.widget-rwa-rustboard .chat-message .col-sm-4:hover,
+.widget-rwa-rustboard .chat-message .col-sm-4:active {
+    overflow: visible;
+}
+
+.widget-rwa-rustboard .chat-messages-new {
+    margin-bottom: 10px;
+}

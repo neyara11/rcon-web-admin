@@ -1,0 +1,141 @@
+{
+  "id": "rwa-rustboard",
+  "repository": "brainfoolong/rwa-rustboard",
+  "version": "0.11.1",
+  "compatibleGames": [
+    "rust"
+  ],
+  "compatibleSizes": [
+    "large"
+  ],
+  "options": {
+    "oldchats": {
+      "type": "number",
+      "min": 0,
+      "step": 1,
+      "default": 200
+    },
+    "kickping": {
+      "type": "number",
+      "min": 0,
+      "step": 1,
+      "default": 0
+    },
+    "kickpingWarn": {
+      "type": "number",
+      "min": 0,
+      "step": 1,
+      "default": 3
+    },
+    "kickvac": {
+      "type": "number",
+      "min": -1,
+      "step": 1,
+      "default": -1
+    },
+    "kickchat": {
+      "type": "text",
+      "default": ""
+    },
+    "kickchatWarn": {
+      "type": "number",
+      "min": 0,
+      "step": 1,
+      "default": 3
+    }
+  },
+  "locale": {
+    "en": {
+      "name": "Rustboard",
+      "description": "The rust board. Some tools for rust.",
+      "kickban.reason": "(Optional) Enter a reason for the kick/ban",
+      "serverstatus": "Serverstatus",
+      "playerlist": "Playerlist",
+      "banlist": "Banlist",
+      "chat": "Chat",
+      "chat.input": "Say something",
+      "chat.loadmessages": "Load",
+      "chat.loadmessages.tooltip": "Load old chat messages. How many is defined in the options",
+      "player.relogin": "Action done and config saved, user must logout and login again to see the changes",
+      "cmd.kick": "Kick user",
+      "cmd.ban": "Ban user",
+      "cmd.giveto": "Give item",
+      "cmd.ownerid": "Add to admins",
+      "cmd.moderatorid": "Add to mods",
+      "cmd.removeowner": "Remove from admins",
+      "cmd.removemoderator": "Remove from mods",
+      "serveroptions": "Settings",
+      "settings.server.hostname.label": "Server hostname",
+      "settings.server.hostname.info": "The server hostname that is visible in the serverbrowser list",
+      "settings.server.description.label": "Server description",
+      "settings.server.description.info": "The information that is visible in the server description window. You don't have to deal with \\n line breaks. Just use real text, we do the conversation for you.",
+      "settings.server.headerimage.label": "Header image",
+      "settings.server.headerimage.info": "Link to image that is visible in the server description window. Exact 512x256 png or jpg",
+      "settings.server.stability.label": "Stability",
+      "settings.server.stability.info": "If disabled buildings can be built unlimited in height and without support. Nothing will collapse.",
+      "settings.setOnBoot.label": "Set on server connect",
+      "settings.setOnBoot.info": "Automatically set all configuration values that you define bellow when the rcon web admin connect to the server. This happen basically on server reboot. This will override all settings that you've set in the command line boot script or in your servers administration panel.",
+      "settings.save": "Save and do server.writecfg",
+      "settings.saved": "All settings set and server config saved",
+      "option.oldchats.title": "Number of old chat messages",
+      "option.oldchats.info": "How many old chat message should be loaded when you hit the load button",
+      "option.kickping.title": "Kick players with ping higher than",
+      "option.kickping.info": "Enter 0 when you want to disable this feature",
+      "option.kickpingWarn.title": "Warn user x times before kick by high ping",
+      "option.kickpingWarn.info": "Enter 0 when you want to kick immediately. Check will be done every 5 minutes",
+      "option.kickvac.title": "Kick players with more than x VAC bans",
+      "option.kickvac.info": "Enter -1 when you want to disable this feature",
+      "option.kickchat.title": "Kick players when chat abuse",
+      "option.kickchat.info": "Enter the words to filter, regex allowed. Use , to separate multiple words. Let empty if you want to disable this feature.",
+      "option.kickchatWarn.title": "Warn user x times before kick by chat filter",
+      "option.kickchatWarn.info": "Enter 0 when you want to kick immediately",
+      "welcome.message" : "Rustboard will give you all the power tools that you need for administration of your rust server. Also checkout the 'options' icon at right top of the widget."
+    },
+    "de": {
+      "name": "Rustboard",
+      "description": "Das Rustboard. Diverse Tools für Rust.",
+      "kickban.reason": "(Optional) Grund für Kick/Ban eingeben",
+      "serverstatus": "Serverstatus",
+      "playerlist": "Spielerliste",
+      "banlist": "Banliste",
+      "chat": "Chat",
+      "chat.input": "Sag etwas",
+      "chat.loadmessages": "Laden",
+      "chat.loadmessages.tooltip": "Lade alte Chat Nachrichten. Wieviele wird in die Optionen definiert",
+      "player.relogin": "Aktion ausgeführt und Konfiguration gespeichert. Spieler muss sich neu einloggen um die Änderungen zu sehen",
+      "cmd.kick": "Spieler kicken",
+      "cmd.ban": "Spieler bannen",
+      "cmd.giveto": "Item geben",
+      "cmd.ownerid": "Zu Admins hinzufügen",
+      "cmd.moderatorid": "Zu Mods hinzufügen",
+      "cmd.removeowner": "Von Admins entfernen",
+      "cmd.removemoderator": "Von Mods entfernen",
+      "serveroptions": "Einstellungen",
+      "settings.server.hostname.label": "Server hostname",
+      "settings.server.hostname.info": "Der sichtbare Namen im Serverbrowser",
+      "settings.server.description.label": "Server Beschreibung",
+      "settings.server.description.info": "Die Information die im Serverbrowser Detailfenster sichtbar ist. Du musst keine \\n Steuerzeichen für Zeilenumbrüche eingeben, wir machen das für dich. Schreib den Text ganz normal, mit Entertaste.",
+      "settings.server.headerimage.label": "Serverbild",
+      "settings.server.headerimage.info": "Verlinke auf ein Bild das im Serverbrowser Fenster sichtbar ist. Muss genau 512x256 groß sein und nur png oder jpg",
+      "settings.server.stability.label": "Stabilität",
+      "settings.server.stability.info": "Falls deaktiviert können Gebäude ohne Einzustürzen gebaut werden, egal wie hoch oder weit. Nichts wird jemals einbrechen",
+      "settings.setOnBoot.label": "Bei Serverboot setzen",
+      "settings.setOnBoot.info": "Setzt automatisch alle Werte so wie du sie unten eingestellt hast, bei jedem Server Reboot. Das bedeutet, dass alle Einstellungen die du in deinem Serveradminpanel oder in den Cmdline Startup Parametern des Server gesetzt hast, überschrieben werden.",
+      "settings.save": "Speichern und server.writecfg ausführen",
+      "settings.saved": "Einstellungen gespeichert und server.writecfg ausgeführt",
+      "option.oldchats.title": "Anzahl alter Chatnachrichten",
+      "option.oldchats.info": "Gib an wieviele alte Chatnachrichten geladen werden sollen wenn du den Laden Button drückst",
+      "option.kickping.title": "Kicke Spieler mit Ping höher als",
+      "option.kickping.info": "Gib 0 ein um das Feature zu deaktivieren",
+      "option.kickpingWarn.title": "Warne Spieler x mal bevor er wegen High Ping gekickt wird",
+      "option.kickpingWarn.info": "Gibt 0 ein um den Spieler sofort zu kicken. Es wird alle 5 Minuten geprüft",
+      "option.kickvac.title": "Kicke Spieler mit mehr als x VAC Bans",
+      "option.kickvac.info": "Gib -1 ein um das Feature zu deaktivieren",
+      "option.kickchat.title": "Kicke Spieler für Chatabuse",
+      "option.kickchat.info": "Gib Worte ein nach denen gefiltert wird. Mehrere mit Beistrich trennen, Regex erlaubt. Leerlassen um dieses Feature zu deaktivieren.",
+      "option.kickchatWarn.title": "Warne Spieler x mal bevor er wegen Chatabuse gekickt wird",
+      "option.kickchatWarn.info": "Gib 0 ein um ihn sofort zu kicken",
+      "welcome.message" : "Rustboard gibt dir all die Tools die du für deine Serveradministration brauchst. Klick auch mal in die 'Optionen' rechts oben im Widget."
+    }
+  }
+}

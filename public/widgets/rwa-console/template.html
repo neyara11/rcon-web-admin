@@ -1,0 +1,38 @@
+<div class="console-header">
+    <h2 class="collapsable-trigger" data-collapsable-target="console.log">
+        <span data-translate="messages"></span> <span class="count">(0)</span>
+    </h2>
+</div>
+
+<div class="console collapsable-target" data-collapsable-id="console.log"></div>
+
+<div class="cmd form-group has-feedback input-group collapsable-target" data-collapsable-id="console.commands">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-chevron-right"></i></span>
+    <input type="search" class="form-control" data-translate-property="placeholder,input.cmd">
+</div>
+
+<div class="search-header">
+    <h2 class="collapsable-trigger" data-collapsable-target="console.commands" data-translate="commands.title"></h2>
+</div>
+
+<div class="search form-group has-feedback input-group form-inline collapsable-target"
+     data-collapsable-id="console.commands">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+    <input type="search" class="form-control" data-translate-property="placeholder,input.search">
+    <select class="selectpicker">
+        <option value="yes" data-translate="autoscroll.enabled"></option>
+        <option value="no" data-translate="autoscroll.disabled"></option>
+    </select>
+</div>
+
+<div class="cmd-select collapsable-target" data-collapsable-id="console.commands">
+    <select class="selectpicker" data-live-search="true">
+        <option value="" data-translate="list.commands"></option>
+    </select>
+</div>
+
+<div class="searchlog-actions">
+    <div class="spacer"></div>
+    <div class="btn btn-info btn-sm serverlogs" data-translate="download.logfiles"></div>
+    <div class="spacer"></div>
+</div>

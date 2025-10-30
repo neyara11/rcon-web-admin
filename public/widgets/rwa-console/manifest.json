@@ -1,0 +1,46 @@
+{
+  "id": "rwa-console",
+  "repository": "brainfoolong/rwa-console",
+  "version": "0.10.1",
+  "compatibleGames": "all",
+  "compatibleSizes": [
+    "large",
+    "medium"
+  ],
+  "options": {
+    "allLogs": {
+      "type": "switch",
+      "default": false
+    }
+  },
+  "locale": {
+    "en": {
+      "name": "Console",
+      "description": "Read and control the command line rcon console of your server",
+      "autoscroll.enabled": "Automatic scroll",
+      "autoscroll.disabled": "Manual scroll",
+      "option.allLogs.title": "Show all logs",
+      "option.allLogs.info": "If enabled than all logs are shown in the console. Otherwise all verbose logs will be filtered.",
+      "input.search": "Search in the rcon console log",
+      "input.cmd": "Execute a rcon command, press enter",
+      "list.commands": "List of all commands and variables",
+      "download.logfiles": "Download logfiles",
+      "messages": "Messages",
+      "commands.title": "Commands"
+    },
+    "de": {
+      "name": "Konsole",
+      "description": "Kommandozeile für deinen Server. Hier kannst du alles machen, solltest dich aber auch auskennen.",
+      "autoscroll.enabled": "Automatisch scrollen",
+      "autoscroll.disabled": "Selber scrollen",
+      "option.allLogs.title": "Alle Logs anzeigen",
+      "option.allLogs.info": "Falls aktiviert dann werden alle Logs der Konsole angzeigt. Andernfalls werden alle 'verbose' logs herausgefiltert.",
+      "input.search": "Suche im Konsolelog",
+      "input.cmd": "RCON Befehl ausführen, drücke Enter",
+      "list.commands": "Liste aller Befehle und Variablen",
+      "download.logfiles": "Logfiles downloaden",
+      "messages": "Log",
+      "commands.title": "Befehle"
+    }
+  }
+}

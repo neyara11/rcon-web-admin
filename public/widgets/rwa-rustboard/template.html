@@ -1,0 +1,126 @@
+<div class="icons-container">
+    <h2 class="collapsable-trigger" data-collapsable-target="rustboard.serverstatus"><span
+            data-translate="serverstatus"></span> <span class="info" style="font-size: 80%"></span></h2>
+    <div class="icons collapsable-target" data-collapsable-id="rustboard.serverstatus">
+        <div class="row">
+            <div class="icon host col-md-6">
+                <span class="glyphicon glyphicon-home"></span> <span class="text"></span>
+            </div>
+            <div class="icon players col-md-6">
+                <span class="glyphicon glyphicon-user"></span> <span class="text"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="icon version col-md-6">
+                <span class="glyphicon glyphicon-info-sign"></span> <span class="text"></span>
+            </div>
+            <div class="icon map col-md-6">
+                <span class="glyphicon glyphicon-picture"></span> <span class="text">
+            </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="server-options">
+    <h2 class="collapsable-trigger" data-collapsable-target="rustboard.serveroptions"
+        data-translate="serveroptions"></h2>
+    <div class="collapsable-target" data-collapsable-id="rustboard.serveroptions">
+        <div class="options">
+
+        </div>
+        <span class="btn btn-info save" data-translate="settings.save"></span>
+    </div>
+</div>
+
+<div class="playerlist">
+    <h2 class="collapsable-trigger" data-collapsable-target="rustboard.playerlist">
+        <span class="text" data-translate="playerlist"></span>
+        <span class="count">(0)</span>
+    </h2>
+    <table class="table table-striped table-condensed table-bordered collapsable-target"
+           data-collapsable-id="rustboard.playerlist">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Time</th>
+            <th>IP</th>
+            <th>Ping</th>
+            <th>VacStats</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="banlist">
+    <h2 class="collapsable-trigger" data-collapsable-target="rustboard.banlist">
+        <span class="text" data-translate="banlist"></span>
+        <span class="count"></span>
+    </h2>
+    <table class="table table-striped table-condensed table-bordered collapsable-target"
+           data-collapsable-id="rustboard.banlist">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Notes</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="chat">
+    <h2 class="collapsable-trigger" data-collapsable-target="rustboard.chat">
+        <span class="text" data-translate="chat"></span>
+        <span class="count">(0)</span>
+    </h2>
+    <div class="collapsable-target" data-collapsable-id="rustboard.chat">
+        <div class="chat-messages-log"></div>
+        <div class="chat-messages-new"></div>
+        <div class="form-group has-feedback input-group">
+            <input type="text" class="form-control chat-input" data-translate-property="placeholder,chat.input">
+            <span class="input-group-addon btn btn-primary chat-load" data-translate="chat.loadmessages"
+                  data-translate-property="data-tooltip,chat.loadmessages.tooltip"></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="chat-message">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="box">
+                <span class="timestamp"></span> |
+                <span class="username"></span>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="text"></div>
+        </div>
+    </div>
+</div>
+
+<div class="online-action">
+    <select>
+        <option value="">Action</option>
+        <option value="steamprofile">Steamprofile</option>
+        <option value="kick" data-translate="cmd.kick"></option>
+        <option value="ban" data-translate="cmd.ban"></option>
+        <option value="giveto" data-translate="cmd.giveto"></option>
+        <option value="ownerid" data-translate="cmd.ownerid"></option>
+        <option value="moderatorid" data-translate="cmd.moderatorid"></option>
+        <option value="removeowner" data-translate="cmd.removeowner"></option>
+        <option value="removemoderator" data-translate="cmd.removemoderator"></option>
+    </select>
+</div>
+
+<div class="welcome-message alert alert-info dismissable" data-id="rustboard.welcome">
+    <div class="text" data-translate="welcome.message">
+        test
+    </div>
+</div>
