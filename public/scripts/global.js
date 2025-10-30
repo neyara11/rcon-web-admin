@@ -189,41 +189,31 @@ $(function () {
             overlay = $('.overlay'),
             isClosed = false;
 
-        // debug('Hamburger initialization: trigger found:', trigger.length, 'overlay found:', overlay.length);
-        // debug('Sidebar wrapper:', $('#sidebar-wrapper').length, 'wrapper:', $('#wrapper').length);
 
         trigger.click(function () {
-            // debug('Hamburger clicked, current isClosed:', isClosed);
             hamburger_cross();
         });
 
         function hamburger_cross() {
-            // debug('hamburger_cross called, isClosed:', isClosed);
 
             if (isClosed == true) {
                 overlay.hide();
                 trigger.removeClass('is-open');
                 trigger.addClass('is-closed');
                 isClosed = false;
-                // debug('Menu closed');
             } else {
                 overlay.show();
                 trigger.removeClass('is-closed');
                 trigger.addClass('is-open');
                 isClosed = true;
-                // debug('Menu opened');
             }
         }
 
         $('[data-toggle="offcanvas"]').click(function () {
-            // debug('Offcanvas toggle clicked');
             var wrapper = $('#wrapper');
             var sidebar = $('#sidebar-wrapper');
             var pageContent = $('#page-content-wrapper');
-            // debug('Wrapper before toggle:', wrapper.hasClass('toggled'));
             wrapper.toggleClass('toggled');
-            // debug('Wrapper after toggle:', wrapper.hasClass('toggled'));
-            // debug('Sidebar wrapper after toggle, width:', sidebar.css('width'));
             // Принудительно применить стили после toggle для Bootstrap 5 совместимости
             if (wrapper.hasClass('toggled')) {
                 sidebar.css('width', '220px');
@@ -232,7 +222,6 @@ $(function () {
                 sidebar.css('width', '0px');
                 pageContent.css('left', '0px');
             }
-            // debug('Styles applied: sidebar width =', sidebar.css('width'), 'page content left =', pageContent.css('left'));
         });
     })();
     var body = $("body");
