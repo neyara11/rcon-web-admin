@@ -61,6 +61,42 @@ Socket.connect = function (callback) {
         } else if(Socket.config.url !== null){
             url = Socket.config.url
         }
+        
+        // Если базовый путь определен и URL не содержит его, добавим его к URL
+        if (Socket.basePath && Socket.basePath !== '/' && Socket.basePath !== '') {
+            // Убедимся, что basePath начинается с '/', но не заканчивается
+            var basePath = Socket.basePath;
+            if (!basePath.startsWith('/')) {
+                basePath = '/' + basePath;
+            }
+            if (basePath.endsWith('/')) {
+                basePath = basePath.slice(0, -1);
+            }
+            
+            // Проверим, содержит ли URL уже basePath, чтобы не дублировать
+            if (!url.includes(basePath)) {
+                try {
+                    // Заменим домен на полный URL с префиксом
+                    var urlObj = new URL(url);
+                    // Добавим basePath к pathname
+                    if (!urlObj.pathname.startsWith(basePath)) {
+                        // Убедимся, что нет двойных слешей
+                        var newPath = basePath + (urlObj.pathname.startsWith('/') ? urlObj.pathname : '/' + urlObj.pathname);
+                        urlObj.pathname = newPath;
+                        url = urlObj.toString();
+                    }
+                } catch (e) {
+                    // Если URL не является корректным (например, относительный), обработаем по-другому
+                    if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
+                        // Это относительный путь, добавим basePath
+                        if (!url.startsWith(Socket.basePath)) {
+                            url = Socket.basePath + (url.startsWith('/') ? url : '/' + url);
+                        }
+                    }
+                }
+            }
+        }
+        
         var con = new WebSocket(url);
         /**
          * On open connection
@@ -138,7 +174,9 @@ Socket.connect = function (callback) {
     } else {
         // load the required ws config
         $.getJSON("wsconfig", function (config) {
-            Socket.config = config
+            Socket.config = config;
+            // Установим базовый путь для приложения
+            Socket.basePath = config.basePath || '';
             cb();
         });
     }

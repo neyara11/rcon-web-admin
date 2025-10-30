@@ -21,6 +21,7 @@ WebSocketMgr.server = null;
 WebSocketMgr.startServer = function () {
     try {
         if (WebSocketMgr.server === null) {
+            // Настройка WebSocket-сервера с возможностью работы за прокси
             WebSocketMgr.server = new WebSocketServer({port: config.port + 1});
             WebSocketMgr.server.on('connection', function connection(ws, req) {
                 var user = new WebSocketUser(ws);
