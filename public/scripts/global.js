@@ -190,6 +190,7 @@ $(function () {
             isClosed = false;
 
         debug('Hamburger initialization: trigger found:', trigger.length, 'overlay found:', overlay.length);
+        debug('Sidebar wrapper:', $('#sidebar-wrapper').length, 'wrapper:', $('#wrapper').length);
 
         trigger.click(function () {
             debug('Hamburger clicked, current isClosed:', isClosed);
@@ -220,6 +221,7 @@ $(function () {
             debug('Wrapper before toggle:', wrapper.hasClass('toggled'));
             wrapper.toggleClass('toggled');
             debug('Wrapper after toggle:', wrapper.hasClass('toggled'));
+            debug('Sidebar wrapper after toggle, width:', $('#sidebar-wrapper').css('width'));
         });
     })();
     var body = $("body");
