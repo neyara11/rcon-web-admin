@@ -535,6 +535,10 @@ body.is-not-admin [data-role='admin'] {
     padding-right: 90px;
 }
 
+.timestamp {
+    color: #333 !important;
+}
+
 .widget .widget-title .glyphicon {
     margin-right: 10px;
 }
