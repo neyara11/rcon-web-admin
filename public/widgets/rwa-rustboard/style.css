@@ -97,7 +97,7 @@
 
 .widget-rwa-rustboard .chat-message .box {
     font-size: 80%;
-    color: #aaaaaa;
+    color: #333;
     padding: 2px 10px;
     border-radius: 3px;
     background: rgba(0, 0, 0, 0.1);
